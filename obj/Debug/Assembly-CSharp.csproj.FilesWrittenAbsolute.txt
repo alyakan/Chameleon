@@ -1,0 +1,17 @@
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Assembly-CSharp.dll.mdb
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Assembly-CSharp.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/obj/Debug/Assembly-CSharp.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/obj/Debug/Assembly-CSharp.dll.mdb
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/UnityEngine.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/UnityEditor.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/UnityEngine.Networking.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/UnityEngine.UI.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Mono.Cecil.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Unity.SerializationLogic.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Unity.DataContract.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/ICSharpCode.NRefactory.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Unity.UNetWeaver.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Unity.UNetWeaver.dll.mdb
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Unity.CecilTools.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Mono.Cecil.Pdb.dll
+/Users/alyyakan/Documents/Unity Tutorials/Chameleon/Temp/bin/Debug/Mono.Cecil.Mdb.dll
