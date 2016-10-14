@@ -7,7 +7,7 @@ public class ChangeLanes : MonoBehaviour {
 	public Rigidbody rigidBody;
 	private DIR currentDir;
 
-
+	private bool trigger = true;
 	enum DIR {
 		L, R
 	};
@@ -23,22 +23,26 @@ public class ChangeLanes : MonoBehaviour {
 			rigidBody.velocity.Set (rigidBody.velocity.x, 0, rigidBody.velocity.z);
 			print (rigidBody.velocity);
 		}
-		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) && finalPos > -1.5) {
+		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) && finalPos > -1.5 && trigger) {
 			/* Check that the sphere is not on the leftmost plane (x > -1.5).
 			 * Note: The sphere can move left twice if its on the right most plane.
 			 */
 			currentDir = DIR.L;
 			finalPos = (float)(finalPos - 1.5);
 			moving = true;
+			trigger = false;
+			StartCoroutine(ChangineLanesTimer()); // Wait for 0.3 seconds
 		}
 
-		if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && finalPos < 1.5) {
+		if ((Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) && finalPos < 1.5 && trigger) {
 			/* Check that the sphere is not on the leftmost plane (x > -1.5).
 			 * Note: The sphere can move left twice if its on the right most plane.
 			 */
 			currentDir = DIR.R;
 			finalPos = (float)(finalPos + 1.5);
 			moving = true;
+			trigger = false;
+			StartCoroutine(ChangineLanesTimer()); // Wait for 0.3 seconds before taking any input
 		}
 	}
 
@@ -95,5 +99,11 @@ public class ChangeLanes : MonoBehaviour {
 		if (rigidBody.position.x < finalPos) {
 			transform.Translate(Vector3.right * Time.deltaTime * 5);
 		}
+	}
+
+	private IEnumerator ChangineLanesTimer() {
+
+		yield return new WaitForSeconds(0.3f); // waits 3 seconds
+		trigger = true; // will make the update method pick up 
 	}
 }

@@ -19,8 +19,8 @@ public class ChangeColor : MonoBehaviour {
 		if (Input.GetKeyDown ("q"))
 			character.material = red;		
 		if (Input.GetKeyDown("w"))
-			character.sharedMaterial = blue;
+			character.material = blue;
 		if (Input.GetKeyDown("e"))
-			character.sharedMaterial = green;
+			character.material = green;
 	}
 }
