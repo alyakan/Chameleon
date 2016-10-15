@@ -21,58 +21,77 @@ public class LaneManager : MonoBehaviour {
 	public Material greenLaneMat;
 	public Material grayLaneMat;
 
-	private bool trigger = false;
+	public GameObject sphere;
+
+	private float lastZPositionForSphere = 0;
+	private int lanesCreated = 20;
+
+	private float destroyTimer = 30.0f;
 
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(DoTheDance());
+		Spawn40Lanes ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (trigger) {
+		float currentZPositionForSphere = sphere.GetComponent<Renderer> ().transform.position.z;
+		if (currentZPositionForSphere - lastZPositionForSphere > 10.0f) {
+			/*
+				Spawn Lanes whenever the sphere moves 10 points forward.
+				This is to enhance memory space.
+			*/
+			lastZPositionForSphere = currentZPositionForSphere;
 			SpawnLeftLane ();
 			SpawnMidLane ();
 			SpawnRightLane ();
-			StartCoroutine(DoTheDance());
+			lanesCreated ++;
+		}
+	}
+
+	public void Spawn40Lanes() {
+		for (int i = 0; i < 20; i++) {
+			SpawnLeftLane ();
+			SpawnMidLane ();
+			SpawnRightLane ();
 		}
 	}
 
 	public void SpawnLeftLane() {
 		/*
 			Spawns Left Lane infront of the last generated Left Lane.
-			TODO: Set to destroy after certain amount of time.
+			Destroy lanes each 30 seconds + number of lanes created;
 		*/
 		Material randomMaterial = GetRandomMaterial ();
 		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = randomMaterial;
-//		Destroy (currentLeftLane, 50.0f);
+		Destroy (currentLeftLane, destroyTimer + lanesCreated);
 
 		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = randomMaterial;
-//		Destroy (currentLeftLane, 50.0f);
+		Destroy (currentLeftLane, destroyTimer + lanesCreated);
 	}
 
 	public void SpawnMidLane() {
 		Material randomMaterial = GetRandomMaterial ();
 		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-//		Destroy (currentMidLane, 50.0f);
+		Destroy (currentMidLane, destroyTimer + lanesCreated);
 
 		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-//		Destroy (currentMidLane, 50.0f);
+		Destroy (currentMidLane, destroyTimer + lanesCreated);
 	}
 
 	public void SpawnRightLane() {
 		Material randomMaterial = GetRandomMaterial ();
 		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-//		Destroy (currentRightLane, 50.0f);
+		Destroy (currentRightLane, destroyTimer + lanesCreated);
 
 		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-//		Destroy (currentRightLane, 50.0f);
+		Destroy (currentRightLane, destroyTimer + lanesCreated);
 	}
 
 	public Material GetRandomMaterial() {
@@ -85,15 +104,6 @@ public class LaneManager : MonoBehaviour {
 			return greenLaneMat;
 		else
 			return grayLaneMat;
-	}
-
-	private IEnumerator DoTheDance() {
-		/*
-			Timer for lane spawning that activates for each 0.01 seconds.
-		*/
-		trigger = false;
-		yield return new WaitForSeconds(0.2f); // waits 0.01 seconds
-		trigger = true; // will make the update method pick up 
 	}
 		
 }

@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class MoveForward : MonoBehaviour {
-	private float speed = 3f;
+	public float speed = 4f;
+	public bool accelerate = false;
 	// Use this for initialization
 	void Start () {
+		StartCoroutine(DoTheDance());
 		GetComponent<Rigidbody>().AddForce(0f, 0f, 1.5f * speed);
 	}
 
@@ -12,7 +14,11 @@ public class MoveForward : MonoBehaviour {
 	void Update () {
 		
 		transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);
-		StartCoroutine(DoTheDance());
+		if (speed < 20.0f && accelerate) {
+			speed+=1.5f; // will make the update method pick up
+			StartCoroutine(DoTheDance());
+		}
+
 
 	}
 
@@ -20,8 +26,8 @@ public class MoveForward : MonoBehaviour {
 		/*
 			Timer for lane spawning that activates for each 0.01 seconds.
 		*/
-		yield return new WaitForSeconds(15f); // waits 0.01 seconds
-		if (speed < 8.0f)
-			speed+=0.05f; // will make the update method pick up 
+		accelerate = false;
+		yield return new WaitForSeconds(10f); // waits 0.01 seconds
+		accelerate = true;
 	}
 }
