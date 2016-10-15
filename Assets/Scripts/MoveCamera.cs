@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class MoveCamera : MonoBehaviour {
-	private float speed = 3f;
 	public GameObject Sphere;
 	// Use this for initialization
 	void Start () {

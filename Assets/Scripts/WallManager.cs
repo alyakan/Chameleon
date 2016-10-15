@@ -22,20 +22,42 @@ public class WallManager : MonoBehaviour {
 
 	private bool trigger = false;
 
+	public GameObject sphere;
+
+	private float lastZPositionForSphere = 0;
+	private int wallsCreated = 20;
+	private float destroyTimer = 30f;
+
 	// Use this for initialization
 	void Start () {
-		StartCoroutine(DoTheDance());
+		Spawn30Walls ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		ChangeLightColor ();
+		float currentZPositionForSphere = sphere.GetComponent<Renderer> ().transform.position.z;
+		if (currentZPositionForSphere - lastZPositionForSphere > 10.0f) {
+			/*
+				Spawn Walls whenever the sphere moves 10 points forward.
+				This is to enhance memory space.
+			*/
+			lastZPositionForSphere = currentZPositionForSphere;
+			SpawnRightWall ();
+			SpawnLeftWall ();
+		}
 		if (trigger) {
 			SpawnRightWall ();
 			SpawnLeftWall ();
-			StartCoroutine(DoTheDance());
 		}
 
+	}
+
+	public void Spawn30Walls() {
+		for (int i = 0; i < 30; i++) {
+			SpawnLeftWall ();
+			SpawnRightWall ();
+		}
 	}
 
 	void ChangeLightColor() {
@@ -63,6 +85,8 @@ public class WallManager : MonoBehaviour {
 			rightWallPrefab,
 			currentRightWall.transform.GetChild (0).transform.GetChild (0).position,
 			Quaternion.identity);
+		wallsCreated += 1;
+		Destroy (currentRightWall, destroyTimer + wallsCreated);
 
 		Vector3 lightPosition = new Vector3(
 			currentRightWallLight.transform.position.x,
@@ -72,6 +96,7 @@ public class WallManager : MonoBehaviour {
 			rightWallLightPrefab,
 			lightPosition,
 			Quaternion.identity);
+		Destroy (currentRightWallLight, destroyTimer + wallsCreated);
 		currentRightWallLight.tag = "Wall Light";
 		currentRightWallLight.GetComponent<Light> ().color = lightColor.GetComponent<Light> ().color;
 	}
@@ -81,6 +106,8 @@ public class WallManager : MonoBehaviour {
 			leftWallPrefab,
 			currentLeftWall.transform.GetChild (0).transform.GetChild (0).position,
 			Quaternion.identity);
+		wallsCreated += 1;
+		Destroy (currentLeftWall, destroyTimer + wallsCreated);
 		
 		Vector3 lightPosition = new Vector3(
 			currentLeftWallLight.transform.position.x,
@@ -90,16 +117,9 @@ public class WallManager : MonoBehaviour {
 			leftWallLightPrefab,
 			lightPosition,
 			Quaternion.identity);
+		Destroy (currentLeftWallLight, destroyTimer + wallsCreated);
 		currentLeftWallLight.tag = "Wall Light";
 		currentLeftWallLight.GetComponent<Light> ().color = lightColor.GetComponent<Light> ().color;
 	}
 
-	private IEnumerator DoTheDance() {
-		/*
-			Timer for lane spawning that activates for each 0.01 seconds.
-		*/
-		trigger = false;
-		yield return new WaitForSeconds(0.25f); // waits 0.01 seconds
-		trigger = true; // will make the update method pick up 
-	}
 }
