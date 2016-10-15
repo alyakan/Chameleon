@@ -28,8 +28,13 @@ public class LaneManager : MonoBehaviour {
 
 	private float destroyTimer = 30.0f;
 
+	private Stack<GameObject> leftLanes = new Stack<GameObject> ();
+	private Stack<GameObject> midLanes = new Stack<GameObject> ();
+	private Stack<GameObject> rightLanes = new Stack<GameObject> ();
+
 	// Use this for initialization
 	void Start () {
+		CreateLanes (60);
 		Spawn40Lanes ();
 	}
 	
@@ -42,56 +47,112 @@ public class LaneManager : MonoBehaviour {
 				This is to enhance memory space.
 			*/
 			lastZPositionForSphere = currentZPositionForSphere;
-			SpawnLeftLane ();
-			SpawnMidLane ();
-			SpawnRightLane ();
+			Material randomMaterial = GetRandomMaterial ();
+			SpawnLeftLane (randomMaterial);
+			SpawnLeftLane (randomMaterial);
+			randomMaterial = GetRandomMaterial ();
+			SpawnMidLane (randomMaterial);
+			SpawnMidLane (randomMaterial);
+			randomMaterial = GetRandomMaterial ();
+			SpawnRightLane (randomMaterial);
+			SpawnRightLane (randomMaterial);
 //			lanesCreated ++;
 		}
 	}
 
 	public void Spawn40Lanes() {
 		for (int i = 0; i < 20; i++) {
-			SpawnLeftLane ();
-			SpawnMidLane ();
-			SpawnRightLane ();
+			Material randomMaterial = GetRandomMaterial ();
+			SpawnLeftLane (randomMaterial);
+			SpawnLeftLane (randomMaterial);
+			randomMaterial = GetRandomMaterial ();
+			SpawnMidLane (randomMaterial);
+			SpawnMidLane (randomMaterial);
+			randomMaterial = GetRandomMaterial ();
+			SpawnRightLane (randomMaterial);
+			SpawnRightLane (randomMaterial);
 		}
 	}
 
-	public void SpawnLeftLane() {
+	public void CreateLanes(int amount) {
+		/* Creates Lanes and pushes them on the stack */
+		for (int i = 0; i < amount; i++) {
+			leftLanes.Push ((GameObject)Instantiate (leftLanePrefab));
+			midLanes.Push ((GameObject)Instantiate (midLanePrefab));
+			rightLanes.Push ((GameObject)Instantiate (rightLanePrefab));
+
+			/* Disable these tiles until spawned. */
+			leftLanes.Peek ().SetActive (false);
+			midLanes.Peek ().SetActive (false);
+			rightLanes.Peek ().SetActive (false);
+		}
+	}
+
+	public void SpawnLeftLane(Material material) {
 		/*
 			Spawns Left Lane infront of the last generated Left Lane.
 			Destroy lanes each 30 seconds + number of lanes created;
 		*/
-		Material randomMaterial = GetRandomMaterial ();
-		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = randomMaterial;
-		Destroy (currentLeftLane, destroyTimer + lanesCreated);
+		if (leftLanes.Count == 2) {
+			CreateLanes (10);
+		}
 
-		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = randomMaterial;
-		Destroy (currentLeftLane, destroyTimer + lanesCreated);
+		GameObject tmp = leftLanes.Pop ();
+		tmp.SetActive (true);
+		tmp.transform.position = currentLeftLane.transform.GetChild (0).transform.GetChild (0).position;
+		currentLeftLane = tmp;
+		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = material;
+
+		PushToLeftLaneStack (destroyTimer + lanesCreated, currentLeftLane);
 	}
 
-	public void SpawnMidLane() {
-		Material randomMaterial = GetRandomMaterial ();
-		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-		Destroy (currentMidLane, destroyTimer + lanesCreated);
+	public void SpawnMidLane(Material material) {
+		if (midLanes.Count == 2) {
+			CreateLanes (10);
+		}
 
-		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-		Destroy (currentMidLane, destroyTimer + lanesCreated);
+		GameObject tmp = midLanes.Pop ();
+		tmp.SetActive (true);
+		tmp.transform.position = currentMidLane.transform.GetChild (0).transform.GetChild (0).position;
+		currentMidLane = tmp;
+		currentMidLane.transform.GetChild (0).GetComponent<Renderer> ().material = material;
+
+		PushToMidLaneStack (destroyTimer + lanesCreated, currentMidLane);
 	}
 
-	public void SpawnRightLane() {
-		Material randomMaterial = GetRandomMaterial ();
-		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-		Destroy (currentRightLane, destroyTimer + lanesCreated);
+	public void SpawnRightLane(Material material) {
+		if (rightLanes.Count == 2) {
+			CreateLanes (10);
+		}
 
-		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
-		Destroy (currentRightLane, destroyTimer + lanesCreated);
+		GameObject tmp = rightLanes.Pop ();
+		tmp.SetActive (true);
+		tmp.transform.position = currentRightLane.transform.GetChild (0).transform.GetChild (0).position;
+		currentRightLane = tmp;
+		currentRightLane.transform.GetChild (0).GetComponent<Renderer> ().material = material;
+
+		PushToRightLaneStack (destroyTimer + lanesCreated, currentRightLane);
+	}
+
+	private IEnumerator PushToLeftLaneStack(float timer, GameObject obj) {
+		/*
+			For recycling lanes.
+		*/
+		yield return new WaitForSeconds(timer);
+		obj.SetActive (false);
+		leftLanes.Push (obj);
+	}
+
+	private IEnumerator PushToMidLaneStack(float timer, GameObject obj) {
+		yield return new WaitForSeconds(timer);
+		obj.SetActive (false);
+		midLanes.Push (obj);
+	}
+
+	private IEnumerator PushToRightLaneStack(float timer, GameObject obj) {
+		yield return new WaitForSeconds(timer);
+		obj.SetActive (false);
+		rightLanes.Push (obj);
 	}
 
 	public Material GetRandomMaterial() {
