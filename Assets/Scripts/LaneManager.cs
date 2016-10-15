@@ -70,7 +70,7 @@ public class LaneManager : MonoBehaviour {
 			Timer for lane spawning that activates for each 0.01 seconds.
 		*/
 		trigger = false;
-		yield return new WaitForSeconds(0.01f); // waits 0.01 seconds
+		yield return new WaitForSeconds(0.2f); // waits 0.01 seconds
 		trigger = true; // will make the update method pick up 
 	}
 }

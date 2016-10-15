@@ -21,7 +21,6 @@ public class ChangeLanes : MonoBehaviour {
 		checkForCorrectPositionContinuous ();
 		if (!moving) {
 			rigidBody.velocity.Set (rigidBody.velocity.x, 0, rigidBody.velocity.z);
-			print (rigidBody.velocity);
 		}
 		if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) && finalPos > -1.5 && trigger) {
 			/* Check that the sphere is not on the leftmost plane (x > -1.5).
