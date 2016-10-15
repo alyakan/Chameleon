@@ -39,21 +39,40 @@ public class LaneManager : MonoBehaviour {
 	}
 
 	public void SpawnLeftLane() {
+		/*
+			Spawns Left Lane infront of the last generated Left Lane.
+			TODO: Set to destroy after certain amount of time.
+		*/
+		Material randomMaterial = GetRandomMaterial ();
 		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentLeftLane.transform.GetChild(0).GetComponent<Renderer> ().material = GetRandomMaterial ();
-		Destroy (currentLeftLane, 50.0f);
+		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = randomMaterial;
+//		Destroy (currentLeftLane, 50.0f);
+
+		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
+		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = randomMaterial;
+//		Destroy (currentLeftLane, 50.0f);
 	}
 
 	public void SpawnMidLane() {
+		Material randomMaterial = GetRandomMaterial ();
 		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = GetRandomMaterial ();
-		Destroy (currentMidLane, 50.0f);
+		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
+//		Destroy (currentMidLane, 50.0f);
+
+		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
+		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
+//		Destroy (currentMidLane, 50.0f);
 	}
 
 	public void SpawnRightLane() {
+		Material randomMaterial = GetRandomMaterial ();
 		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
-		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = GetRandomMaterial ();
-		Destroy (currentRightLane, 50.0f);
+		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
+//		Destroy (currentRightLane, 50.0f);
+
+		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
+		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = randomMaterial;
+//		Destroy (currentRightLane, 50.0f);
 	}
 
 	public Material GetRandomMaterial() {
@@ -76,4 +95,5 @@ public class LaneManager : MonoBehaviour {
 		yield return new WaitForSeconds(0.2f); // waits 0.01 seconds
 		trigger = true; // will make the update method pick up 
 	}
+		
 }

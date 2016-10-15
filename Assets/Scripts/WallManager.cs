@@ -99,7 +99,7 @@ public class WallManager : MonoBehaviour {
 			Timer for lane spawning that activates for each 0.01 seconds.
 		*/
 		trigger = false;
-		yield return new WaitForSeconds(0.01f); // waits 0.01 seconds
+		yield return new WaitForSeconds(0.25f); // waits 0.01 seconds
 		trigger = true; // will make the update method pick up 
 	}
 }
