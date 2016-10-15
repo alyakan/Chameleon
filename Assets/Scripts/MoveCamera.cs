@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MoveCamera : MonoBehaviour {
 	private float speed = 3f;
+	public GameObject Sphere;
 	// Use this for initialization
 	void Start () {
 		
@@ -10,17 +11,8 @@ public class MoveCamera : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		
-		transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);
-		StartCoroutine(DoTheDance());
+		/* Keeps following the sphere with a difference of 9.0 points in the z-position */
+		transform.position = (new Vector3(transform.position.x, transform.position.y, (Sphere.transform.position.z - 9.0f)));
 	}
 
-	private IEnumerator DoTheDance() {
-		/*
-			Timer for lane spawning that activates for each 0.01 seconds.
-		*/
-		yield return new WaitForSeconds(15f); // waits 0.01 seconds
-		if (speed < 8.0f)
-			speed+=0.05f; // will make the update method pick up 
-	}
 }

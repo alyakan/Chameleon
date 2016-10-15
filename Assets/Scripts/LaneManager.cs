@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class LaneManager : MonoBehaviour {
 	/*
@@ -29,7 +30,6 @@ public class LaneManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
 		if (trigger) {
 			SpawnLeftLane ();
 			SpawnMidLane ();
@@ -41,16 +41,19 @@ public class LaneManager : MonoBehaviour {
 	public void SpawnLeftLane() {
 		currentLeftLane = (GameObject)Instantiate (leftLanePrefab, currentLeftLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentLeftLane.transform.GetChild(0).GetComponent<Renderer> ().material = GetRandomMaterial ();
+		Destroy (currentLeftLane, 50.0f);
 	}
 
 	public void SpawnMidLane() {
 		currentMidLane = (GameObject)Instantiate (midLanePrefab, currentMidLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentMidLane.transform.GetChild(0).GetComponent<Renderer> ().material = GetRandomMaterial ();
+		Destroy (currentMidLane, 50.0f);
 	}
 
 	public void SpawnRightLane() {
 		currentRightLane = (GameObject)Instantiate (rightLanePrefab, currentRightLane.transform.GetChild (0).transform.GetChild (0).position, Quaternion.identity);
 		currentRightLane.transform.GetChild(0).GetComponent<Renderer> ().material = GetRandomMaterial ();
+		Destroy (currentRightLane, 50.0f);
 	}
 
 	public Material GetRandomMaterial() {

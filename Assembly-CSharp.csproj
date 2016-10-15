@@ -53,7 +53,7 @@
      <Compile Include="Assets\Scripts\Sphere\ChangeLanes.cs" />
      <Compile Include="Assets\Scripts\Sphere\Jump.cs" />
      <Compile Include="Assets\Scripts\Sphere\MoveForward.cs" />
-     <Compile Include="Assets\WallManager.cs" />
+     <Compile Include="Assets\Scripts\WallManager.cs" />
  <Reference Include="UnityEngine.Networking">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>

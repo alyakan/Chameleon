@@ -5,7 +5,7 @@ public class MoveForward : MonoBehaviour {
 	private float speed = 3f;
 	// Use this for initialization
 	void Start () {
-		GetComponent<Rigidbody>().AddForce(0f, 0f, 1f * speed);
+		GetComponent<Rigidbody>().AddForce(0f, 0f, 1.5f * speed);
 	}
 
 	// Update is called once per frame
