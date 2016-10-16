@@ -26,8 +26,4 @@ public class Jump : MonoBehaviour {
 		}
 	}
 
-	void FixedUpdate() {
-		
-	}
-
 }

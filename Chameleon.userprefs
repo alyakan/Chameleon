@@ -1,12 +1,12 @@
 ﻿<Properties StartupItem="Assembly-CSharp.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Sphere/MoveForward.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/LaneManager.cs">
     <Files>
-      <File FileName="Assets/Scripts/Sphere/MoveForward.cs" Line="13" Column="3" />
-      <File FileName="Assets/Scripts/LaneManager.cs" Line="73" Column="38" />
-      <File FileName="Assets/WallManager.cs" Line="94" Column="65" />
-      <File FileName="Assets/Scripts/Sphere/ChangeColor.cs" Line="20" Column="25" />
-      <File FileName="Assets/Scripts/MoveCamera.cs" Line="23" Column="16" />
+      <File FileName="Assets/Scripts/Sphere/MoveForward.cs" Line="68" Column="3" />
+      <File FileName="Assets/Scripts/LaneManager.cs" Line="157" Column="25" />
+      <File FileName="Assets/Scripts/MoveCamera.cs" Line="1" Column="1" />
+      <File FileName="Assets/Scripts/Sphere/Jump.cs" Line="27" Column="3" />
+      <File FileName="Assets/Scripts/CubeManager.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

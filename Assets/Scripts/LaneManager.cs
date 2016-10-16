@@ -95,8 +95,8 @@ public class LaneManager : MonoBehaviour {
 			Spawns Left Lane infront of the last generated Left Lane.
 			Destroy lanes each 30 seconds + number of lanes created;
 		*/
-		if (leftLanes.Count == 2) {
-			CreateLanes (10);
+		if (leftLanes.Count == 0) {
+			CreateLanes (2);
 		}
 
 		GameObject tmp = leftLanes.Pop ();
@@ -109,8 +109,8 @@ public class LaneManager : MonoBehaviour {
 	}
 
 	public void SpawnMidLane(Material material) {
-		if (midLanes.Count == 2) {
-			CreateLanes (10);
+		if (midLanes.Count == 0) {
+			CreateLanes (2);
 		}
 
 		GameObject tmp = midLanes.Pop ();
@@ -123,8 +123,8 @@ public class LaneManager : MonoBehaviour {
 	}
 
 	public void SpawnRightLane(Material material) {
-		if (rightLanes.Count == 2) {
-			CreateLanes (10);
+		if (rightLanes.Count == 0) {
+			CreateLanes (2);
 		}
 
 		GameObject tmp = rightLanes.Pop ();
