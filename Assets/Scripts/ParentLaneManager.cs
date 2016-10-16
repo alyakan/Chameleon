@@ -97,4 +97,24 @@ public class ParentLaneManager : MonoBehaviour {
 			return grayLaneMat;
 	}
 
+	public void TurnToGray() {
+		print ("Ok");
+		GameObject[] lanes = GameObject.FindGameObjectsWithTag("Lane");
+		foreach(GameObject lane in lanes)
+		{
+			print (lane
+				.transform.GetChild (0)
+				.GetComponent<Renderer> ().material.name);
+			lane
+				.transform.GetChild (0)
+				.GetComponent<Renderer> ().material = grayLaneMat;
+			lane
+				.transform.GetChild (0)
+				.GetComponent<Renderer> ().material = grayLaneMat;
+			lane
+				.transform.GetChild (0)
+				.GetComponent<Renderer> ().material = grayLaneMat;
+		}
+	}
+
 }

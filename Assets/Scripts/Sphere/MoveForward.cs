@@ -5,7 +5,7 @@ using System.Collections;
 public class MoveForward : MonoBehaviour {
 	public float speed = 4f;
 	public bool accelerate = false;
-	public LaneManager laneManager;
+//	public LaneManager laneManager;
 	public ParentLaneManager parentLaneManager;
 	private float spawnLaneTimer = 3.0f;
 
@@ -58,7 +58,7 @@ public class MoveForward : MonoBehaviour {
 			break;
 		case "PurpleCube":
 			other.gameObject.SetActive(false);
-			laneManager.TurnAllLanesToGray();
+			parentLaneManager.TurnToGray();
 			break;
 		case "Lane":
 			CheckForColorMismatchAndPunish (other.gameObject.transform.GetChild (0).GetComponent<Renderer> ().material);
@@ -112,7 +112,7 @@ public class MoveForward : MonoBehaviour {
 		/*
 			Check for color mismatch between sphere and lane.
 		*/
-		Material sphereMat = laneManager.sphere.GetComponent<Renderer> ().material;
+		Material sphereMat = gameObject.GetComponent<Renderer> ().material;
 		if (laneMat.name != sphereMat.name && laneMat.name != "Gray (Instance)") {
 			StartCoroutine (TriggerPunishment (laneMat));
 			if (score <= 1) {
