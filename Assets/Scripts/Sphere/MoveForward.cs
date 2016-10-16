@@ -9,22 +9,42 @@ public class MoveForward : MonoBehaviour {
 
 
 	public Text scoreText;
+	public Button pauseGame;
+	public Text pauseButtonText;
+	public Canvas canvas;
+
 	private int score = 100;
+	private bool paused = false;
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(AccelrationTimer());
 		GetComponent<Rigidbody>().AddForce(0f, 0f, 1.5f * speed);
+		pauseGame.onClick.AddListener(() => PauseGame());
 	}
 
 	// Update is called once per frame
 	void Update () {
 		scoreText.text = "Score: " + score;
 		transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);
+
 		if (speed < 20.0f && accelerate) {
 			speed+=1.0f; // will make the update method pick up
 			StartCoroutine(AccelrationTimer());
 		}
 
+
+	}
+
+	void PauseGame() {
+		if (!paused) {
+			Time.timeScale = 0.0f;
+			pauseButtonText.text = "Resume";
+			paused = true;
+		} else {
+			Time.timeScale = 1.0f;
+			pauseButtonText.text = "Pause";
+			paused = false;
+		}
 
 	}
 
