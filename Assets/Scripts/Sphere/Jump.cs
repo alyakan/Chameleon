@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 	public bool grounded = true;
-	public float jumpPower = 500;
+	public float jumpPower = 750;
 	private bool hasJumped = false;
 
 	// Use this for initialization
