@@ -89,6 +89,7 @@
      <Compile Include="Assets\Scripts\LaneDestroy.cs" />
      <Compile Include="Assets\Scripts\LaneManager.cs" />
      <Compile Include="Assets\Scripts\MoveCamera.cs" />
+     <Compile Include="Assets\Scripts\ParentLaneManager.cs" />
      <Compile Include="Assets\Scripts\RotateCube.cs" />
      <Compile Include="Assets\Scripts\Sphere\ChangeColor.cs" />
      <Compile Include="Assets\Scripts\Sphere\ChangeLanes.cs" />

@@ -24,9 +24,10 @@ public class LaneManager : MonoBehaviour {
 	public GameObject sphere;
 
 	private float lastZPositionForSphere = 0;
-	private int lanesCreated = 20;
+	private int lanesCreated = 0;
 
-	private float destroyTimer = 30.0f;
+	private float destroyTimer = 10f;
+	public MoveForward moveForward;
 
 	private Stack<GameObject> leftLanes = new Stack<GameObject> ();
 	private Stack<GameObject> midLanes = new Stack<GameObject> ();
@@ -34,36 +35,46 @@ public class LaneManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CreateLanes (60);
-		Spawn40Lanes ();
-
-
+//		CreateLanes (60);
+//		SpawnStartingLanes ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		float currentZPositionForSphere = sphere.GetComponent<Renderer> ().transform.position.z;
-		if (currentZPositionForSphere - lastZPositionForSphere > 10.0f) {
-			/*
-				Spawn Lanes whenever the sphere moves 10 points forward.
-				This is to enhance memory space.
-			*/
-			lastZPositionForSphere = currentZPositionForSphere;
-			Material randomMaterial = GetRandomMaterial ();
-			SpawnLeftLane (randomMaterial);
-			SpawnLeftLane (randomMaterial);
-			randomMaterial = GetRandomMaterial ();
-			SpawnMidLane (randomMaterial);
-			SpawnMidLane (randomMaterial);
-			randomMaterial = GetRandomMaterial ();
-			SpawnRightLane (randomMaterial);
-			SpawnRightLane (randomMaterial);
-//			lanesCreated ++;
-		}
+//		float currentZPositionForSphere = sphere.GetComponent<Renderer> ().transform.position.z;
+//		if (currentZPositionForSphere - lastZPositionForSphere > 10.0f) {
+//			/*
+//				Spawn Lanes whenever the sphere moves 10 points forward.
+//				This is to enhance memory space.
+//			*/
+//			lastZPositionForSphere = currentZPositionForSphere;
+//			Material randomMaterial = GetRandomMaterial ();
+//			if (leftLanes.Count == 0) {
+//				CreateLanes (2);
+//				lanesCreated = leftLanes.Count;
+//			}
+//
+//			SpawnLeftLane (randomMaterial);
+//			SpawnLeftLane (randomMaterial);
+//			randomMaterial = GetRandomMaterial ();
+//			SpawnMidLane (randomMaterial);
+//			SpawnMidLane (randomMaterial);
+//			randomMaterial = GetRandomMaterial ();
+//			SpawnRightLane (randomMaterial);
+//			SpawnRightLane (randomMaterial);
+//
+//			if (moveForward.speed >= 18.5f) {
+//				destroyTimer = 0.5f;
+//				lanesCreated = 0;
+//			}
+//
+//			if (destroyTimer > 2)
+//				destroyTimer -= 0.5f;
+//		}
 	}
 
-	public void Spawn40Lanes() {
-		for (int i = 0; i < 20; i++) {
+	public void SpawnStartingLanes() {
+		for (int i = 0; i < 15; i++) {
 			Material randomMaterial = GetRandomMaterial ();
 			SpawnLeftLane (randomMaterial);
 			SpawnLeftLane (randomMaterial);
@@ -73,7 +84,10 @@ public class LaneManager : MonoBehaviour {
 			randomMaterial = GetRandomMaterial ();
 			SpawnRightLane (randomMaterial);
 			SpawnRightLane (randomMaterial);
+			lanesCreated+=2;
+
 		}
+		lanesCreated = 15;
 	}
 
 	public void CreateLanes(int amount) {
@@ -88,6 +102,7 @@ public class LaneManager : MonoBehaviour {
 			midLanes.Peek ().SetActive (false);
 			rightLanes.Peek ().SetActive (false);
 		}
+		print (leftLanes.Count);
 	}
 
 	public void SpawnLeftLane(Material material) {
@@ -95,23 +110,22 @@ public class LaneManager : MonoBehaviour {
 			Spawns Left Lane infront of the last generated Left Lane.
 			Destroy lanes each 30 seconds + number of lanes created;
 		*/
-		if (leftLanes.Count == 0) {
-			CreateLanes (2);
-		}
 
+		print (leftLanes.Count);
 		GameObject tmp = leftLanes.Pop ();
 		tmp.SetActive (true);
 		tmp.transform.position = currentLeftLane.transform.GetChild (0).transform.GetChild (0).position;
 		currentLeftLane = tmp;
 		currentLeftLane.transform.GetChild (0).GetComponent<Renderer> ().material = material;
 
-		PushToLeftLaneStack (destroyTimer + lanesCreated, currentLeftLane);
+		StartCoroutine (PushToLeftLaneStack ((destroyTimer) + lanesCreated, currentLeftLane));
+
 	}
 
 	public void SpawnMidLane(Material material) {
-		if (midLanes.Count == 0) {
-			CreateLanes (2);
-		}
+//		if (midLanes.Count == 0) {
+//			CreateLanes (2);
+//		}
 
 		GameObject tmp = midLanes.Pop ();
 		tmp.SetActive (true);
@@ -119,13 +133,14 @@ public class LaneManager : MonoBehaviour {
 		currentMidLane = tmp;
 		currentMidLane.transform.GetChild (0).GetComponent<Renderer> ().material = material;
 
-		PushToMidLaneStack (destroyTimer + lanesCreated, currentMidLane);
+		StartCoroutine (PushToMidLaneStack (destroyTimer + lanesCreated, currentMidLane));
+
 	}
 
 	public void SpawnRightLane(Material material) {
-		if (rightLanes.Count == 0) {
-			CreateLanes (2);
-		}
+//		if (rightLanes.Count == 0) {
+//			CreateLanes (2);
+//		}
 
 		GameObject tmp = rightLanes.Pop ();
 		tmp.SetActive (true);
@@ -133,8 +148,10 @@ public class LaneManager : MonoBehaviour {
 		currentRightLane = tmp;
 		currentRightLane.transform.GetChild (0).GetComponent<Renderer> ().material = material;
 
-		PushToRightLaneStack (destroyTimer + lanesCreated, currentRightLane);
+		StartCoroutine (PushToRightLaneStack (destroyTimer + lanesCreated, currentRightLane));
 	}
+
+
 
 	private IEnumerator PushToLeftLaneStack(float timer, GameObject obj) {
 		/*

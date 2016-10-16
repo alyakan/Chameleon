@@ -6,12 +6,15 @@ public class MoveForward : MonoBehaviour {
 	public float speed = 4f;
 	public bool accelerate = false;
 	public LaneManager laneManager;
-
+	public ParentLaneManager parentLaneManager;
+	private float spawnLaneTimer = 3.0f;
 
 	public Text scoreText;
 	public Button pauseGame;
 	public Text pauseButtonText;
 	public Canvas canvas;
+
+	private Collider laneToBeSpawned;
 
 	private int score = 100;
 	private bool paused = false;
@@ -31,8 +34,7 @@ public class MoveForward : MonoBehaviour {
 			speed+=1.0f; // will make the update method pick up
 			StartCoroutine(AccelrationTimer());
 		}
-
-
+			
 	}
 
 	void PauseGame() {
@@ -67,6 +69,45 @@ public class MoveForward : MonoBehaviour {
 
 	}
 
+	void OnTriggerExit(Collider other) {
+		switch (other.gameObject.tag) {
+		case "Lane":
+			StartCoroutine (LaneSpawnTimer (other));
+			break;
+		default:
+			break;
+		}
+
+	}
+
+	private void SpawnNewLane(Collider other)
+	{
+		if (parentLaneManager.parentLanes.Count == 0)
+			parentLaneManager.CreateParentLane (1);
+
+		other.gameObject.transform.parent.gameObject.transform.parent.gameObject.SetActive (false);
+		parentLaneManager.parentLanes.Push (other.gameObject.transform.parent.gameObject.transform.parent.gameObject);
+
+		Material[] materials = new Material[3];
+
+		materials [0] = parentLaneManager.GetRandomMaterial ();
+		materials [1] = parentLaneManager.GetRandomMaterial ();
+		materials [2] = parentLaneManager.GetRandomMaterial ();
+
+		parentLaneManager.SpawnParentLane (materials);
+			
+	}
+
+	private IEnumerator LaneSpawnTimer(Collider other) {
+		/*
+			Timer to allow user changing lanes before decreasing score.
+		*/
+		yield return new WaitForSeconds(spawnLaneTimer);
+		SpawnNewLane (other);
+		if (spawnLaneTimer > 0.8f)
+			spawnLaneTimer -= 0.05f;
+	}
+		
 	private void CheckForColorMismatchAndPunish(Material laneMat) {
 		/*
 			Check for color mismatch between sphere and lane.
@@ -81,7 +122,7 @@ public class MoveForward : MonoBehaviour {
 	}
 
 	private bool CheckForColorMismatch(Material laneMat) {
-		Material sphereMat = laneManager.sphere.GetComponent<Renderer> ().material;
+		Material sphereMat = gameObject.GetComponent<Renderer> ().material;
 		return (laneMat.name != sphereMat.name && laneMat.name != "Gray (Instance)");
 	}
 
