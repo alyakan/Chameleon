@@ -36,6 +36,8 @@ public class LaneManager : MonoBehaviour {
 	void Start () {
 		CreateLanes (60);
 		Spawn40Lanes ();
+
+
 	}
 	
 	// Update is called once per frame
@@ -153,6 +155,34 @@ public class LaneManager : MonoBehaviour {
 		yield return new WaitForSeconds(timer);
 		obj.SetActive (false);
 		rightLanes.Push (obj);
+	}
+
+	public void TurnAllLanesToGray() {
+		GameObject[] lanes = GameObject.FindGameObjectsWithTag("Lane");
+		Material[]  materials = Resources.FindObjectsOfTypeAll<Material> ();
+		StartCoroutine(TurnToGray(materials, lanes));
+
+	}
+
+	public IEnumerator TurnToGray(Material[] materials, GameObject[] lanes) {
+		yield return new WaitForSeconds (0.5f);
+		foreach (Material mat in materials) {
+			int counter = 0;
+			foreach(GameObject lane in lanes) {
+				//			print (lane.transform.GetChild (0).GetComponent<Renderer> ().material.name);
+				print(mat.name);
+
+				if (mat.name == "Gray" && counter < 30)
+				if (lane.transform.GetChild (0).GetComponent<Renderer> ().transform.position.z >= sphere.transform.position.z) {
+					lane.transform.GetChild (0).GetComponent<Renderer> ().sharedMaterial = mat;
+					counter++;
+				}
+					
+			}
+			if (mat.name == "Gray") {
+				break;
+			}
+		}
 	}
 
 	public Material GetRandomMaterial() {
