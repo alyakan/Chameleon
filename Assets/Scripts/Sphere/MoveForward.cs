@@ -5,14 +5,19 @@ using System.Collections;
 public class MoveForward : MonoBehaviour {
 	public float speed = 4f;
 	public bool accelerate = false;
-//	public LaneManager laneManager;
-	public ParentLaneManager parentLaneManager;
 	private float spawnLaneTimer = 3.0f;
+	public bool isDead = false;
+	private int highestScore = 100;
 
 	public Text scoreText;
 	public Button pauseGame;
+	public Button retry;
 	public Text pauseButtonText;
 	public Canvas canvas;
+	public Animator gameOverAnim;
+	public ParentLaneManager parentLaneManager;
+	public Text menuScoreText;
+	public Text menuBestText;
 
 	private Collider laneToBeSpawned;
 
@@ -23,10 +28,17 @@ public class MoveForward : MonoBehaviour {
 		StartCoroutine(AccelrationTimer());
 		GetComponent<Rigidbody>().AddForce(0f, 0f, 1.5f * speed);
 		pauseGame.onClick.AddListener(() => PauseGame());
+		retry.onClick.AddListener(() => Retry());
 	}
 
 	// Update is called once per frame
 	void Update () {
+		if (score == 1) {
+			isDead = true;
+			gameOverAnim.SetTrigger ("GameOver");
+			menuScoreText.text = highestScore + "";
+		}
+
 		scoreText.text = "Score: " + score;
 		transform.Translate(Vector3.forward * Time.deltaTime * speed, Space.World);
 
@@ -50,11 +62,17 @@ public class MoveForward : MonoBehaviour {
 
 	}
 
+	void Retry() {
+		Application.LoadLevel (Application.loadedLevel);
+	}
+
 	void OnTriggerEnter(Collider other) {
 		switch (other.gameObject.tag) {
 		case "YellowCube":
-			other.gameObject.SetActive(false);
+			other.gameObject.SetActive (false);
 			score += 20;
+			if (score > highestScore)
+				highestScore = score;
 			break;
 		case "PurpleCube":
 			other.gameObject.SetActive(false);
@@ -115,9 +133,6 @@ public class MoveForward : MonoBehaviour {
 		Material sphereMat = gameObject.GetComponent<Renderer> ().material;
 		if (laneMat.name != sphereMat.name && laneMat.name != "Gray (Instance)") {
 			StartCoroutine (TriggerPunishment (laneMat));
-			if (score <= 1) {
-				// TODO: Gameover
-			}	
 		}
 	}
 
