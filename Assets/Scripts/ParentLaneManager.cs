@@ -108,12 +108,12 @@ public class ParentLaneManager : MonoBehaviour {
 			lane
 				.transform.GetChild (0)
 				.GetComponent<Renderer> ().material = grayLaneMat;
-			lane
-				.transform.GetChild (0)
-				.GetComponent<Renderer> ().material = grayLaneMat;
-			lane
-				.transform.GetChild (0)
-				.GetComponent<Renderer> ().material = grayLaneMat;
+//			lane
+//				.transform.GetChild (0)
+//				.GetComponent<Renderer> ().material = grayLaneMat;
+//			lane
+//				.transform.GetChild (0)
+//				.GetComponent<Renderer> ().material = grayLaneMat;
 		}
 	}
 
