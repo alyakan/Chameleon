@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Jump : MonoBehaviour {
 	public bool grounded = true;
-	public float jumpPower = 1000;
+	public float jumpPower = 750;
 	private bool hasJumped = false;
 
 	// Use this for initialization
@@ -18,11 +18,9 @@ public class Jump : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Space) && grounded == true) {
 			hasJumped = true;
 		}
-	}
-
-	void FixedUpdate() {
 		if(hasJumped){
-			GetComponent<Rigidbody>().AddForce(transform.up*jumpPower);
+			GetComponent<Rigidbody>().AddForce(Vector3.up*jumpPower);
+			// transform.Translate(Vector3.up * Time.deltaTime * 5);
 			grounded = false;
 			hasJumped = false;
 		}
