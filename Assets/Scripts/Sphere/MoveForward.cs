@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
 
@@ -22,6 +23,11 @@ public class MoveForward : MonoBehaviour {
 	public Jump jumpScript;
 	public Text menuScoreText;
 	public Text menuBestText;
+	public Animator pauseMenuAnim;
+	public Button resume;
+	public Button retryPause;
+	public Button quit;
+	public Image pauseMenu;
 
 	private Collider laneToBeSpawned;
 
@@ -32,8 +38,10 @@ public class MoveForward : MonoBehaviour {
 	void Start () {
 		StartCoroutine(AccelrationTimer());
 		GetComponent<Rigidbody>().AddForce(0f, 0f, 1.5f * speed);
-		pauseGame.onClick.AddListener(() => PauseGame());
 		retry.onClick.AddListener(() => Retry());
+		retryPause.onClick.AddListener(() => Retry());
+		resume.onClick.AddListener(() => Resume());
+		quit.onClick.AddListener(() => Quit());
 	}
 
 	// Update is called once per frame
@@ -72,23 +80,36 @@ public class MoveForward : MonoBehaviour {
 			startedRolling = true;
 			transform.GetComponent<AudioSource> ().Play ();
 		}
+
+		if (Input.GetKey(KeyCode.Escape)) {
+			pauseMenuAnim.SetTrigger ("ViewPauseMenu");
+			pauseMenu.GetComponent<AudioSource> ().Play ();
+			StartCoroutine (WaitForPause ());
+		}
 	}
 
-	void PauseGame() {
-		if (!paused) {
-			Time.timeScale = 0.0f;
-			pauseButtonText.text = "Resume";
-			paused = true;
-		} else {
-			Time.timeScale = 1.0f;
-			pauseButtonText.text = "Pause";
-			paused = false;
-		}
-
+	IEnumerator WaitForPause() {
+		yield return new WaitForSeconds (0.25f);
+		Time.timeScale = 0;
 	}
 
 	void Retry() {
-		Application.LoadLevel (Application.loadedLevel);
+		SceneManager.LoadScene ("GameWorld");
+	}
+
+	void Resume() {
+		Time.timeScale = 1;
+		StartCoroutine (WaitForResume ());
+	}
+
+	IEnumerator WaitForResume() {
+		yield return new WaitForSeconds (0);
+		pauseMenuAnim.SetTrigger ("DismissPauseMenu");
+		pauseMenu.GetComponent<AudioSource> ().Stop ();
+	}
+
+	void Quit() {
+		SceneManager.LoadScene ("Menu");
 	}
 
 	void OnTriggerEnter(Collider other) {
