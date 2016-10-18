@@ -8,6 +8,9 @@ public class MoveForward : MonoBehaviour {
 	private float spawnLaneTimer = 3.0f;
 	public bool isDead = false;
 	private int highestScore = 100;
+	private float lastZPosition = 0;
+	private float currentZPosition = 0;
+	private bool shouldRecyclePlane = false;
 
 	public Text scoreText;
 	public Button pauseGame;
@@ -16,6 +19,7 @@ public class MoveForward : MonoBehaviour {
 	public Canvas canvas;
 	public Animator gameOverAnim;
 	public ParentLaneManager parentLaneManager;
+	public Jump jumpScript;
 	public Text menuScoreText;
 	public Text menuBestText;
 
@@ -33,6 +37,7 @@ public class MoveForward : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+
 		if (score == 1) {
 			isDead = true;
 			gameOverAnim.SetTrigger ("GameOver");
@@ -47,6 +52,20 @@ public class MoveForward : MonoBehaviour {
 			StartCoroutine(AccelrationTimer());
 		}
 			
+	}
+
+	void FixedUpdate() {
+		currentZPosition = transform.position.z;
+
+		if (currentZPosition - lastZPosition >= 4.5) {
+			/*
+				Only recycle plane when sphere moves forward by 4.5 points
+				to prevent recycling when switching between planes.
+			*/
+			print ("Should Recycle");
+			shouldRecyclePlane = true;
+			lastZPosition = currentZPosition;
+		}
 	}
 
 	void PauseGame() {
@@ -90,7 +109,10 @@ public class MoveForward : MonoBehaviour {
 	void OnTriggerExit(Collider other) {
 		switch (other.gameObject.tag) {
 		case "Lane":
-			StartCoroutine (LaneSpawnTimer (other));
+			if (shouldRecyclePlane) {
+				StartCoroutine (LaneSpawnTimer (other));
+				shouldRecyclePlane = false;
+			}
 			break;
 		default:
 			break;
