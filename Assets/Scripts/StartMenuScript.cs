@@ -9,11 +9,16 @@ public class StartMenuScript : MonoBehaviour {
 	public Button howToPlayBtn;
 	public Button creditsBtn;
 	public Button quitGameBtn;
+	public Button doneInstructions;
+
+	public Animator instructionsAnim;
 
 	// Use this for initialization
 	void Start () {
 		startGameBtn.onClick.AddListener(() => StartGame());
+		howToPlayBtn.onClick.AddListener(() => HowToPlay());
 		quitGameBtn.onClick.AddListener(() => QuitGame());
+		doneInstructions.onClick.AddListener(() => DoneInstructions());
 	}
 	
 	// Update is called once per frame
@@ -23,8 +28,8 @@ public class StartMenuScript : MonoBehaviour {
 
 	void StartGame()
 	{
-		transform.GetChild (2).GetComponent<AudioSource> ().Play ();
-		StartCoroutine (WaitForSound (transform.GetChild (2).GetComponent<AudioSource> ().clip.length));
+		transform.GetChild (0).transform.GetChild(1).GetComponent<AudioSource> ().Play ();
+		StartCoroutine (WaitForSound (transform.GetChild (0).transform.GetChild(1).GetComponent<AudioSource> ().clip.length));
 	}
 
 	IEnumerator WaitForSound(float time)
@@ -35,7 +40,7 @@ public class StartMenuScript : MonoBehaviour {
 
 	void HowToPlay() 
 	{
-		
+		instructionsAnim.SetTrigger ("ViewInstructions");
 	}
 
 	void Credits()
@@ -48,5 +53,10 @@ public class StartMenuScript : MonoBehaviour {
 		print ("QUIT");
 		Application.Quit ();
 		
+	}
+
+	void DoneInstructions()
+	{
+		instructionsAnim.SetTrigger ("DismissInstructions");
 	}
 }
