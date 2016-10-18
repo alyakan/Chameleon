@@ -95,8 +95,8 @@
      <Compile Include="Assets\Scripts\Sphere\ChangeLanes.cs" />
      <Compile Include="Assets\Scripts\Sphere\Jump.cs" />
      <Compile Include="Assets\Scripts\Sphere\MoveForward.cs" />
+     <Compile Include="Assets\Scripts\StartMenuScript.cs" />
      <Compile Include="Assets\Scripts\WallManager.cs" />
-     <Compile Include="Assets\StartMenuScript.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Handpainted Forest Environment Free Sample\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\Handpainted Forest Environment Free Sample\Standard Assets\Effects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />

@@ -27,6 +27,7 @@ public class MoveForward : MonoBehaviour {
 
 	private int score = 100;
 	private bool paused = false;
+	private bool startedRolling = false;
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(AccelrationTimer());
@@ -65,6 +66,11 @@ public class MoveForward : MonoBehaviour {
 			print ("Should Recycle");
 			shouldRecyclePlane = true;
 			lastZPosition = currentZPosition;
+		}
+
+		if (transform.position.y <= 0.6 && !startedRolling) {
+			startedRolling = true;
+			transform.GetComponent<AudioSource> ().Play ();
 		}
 	}
 
