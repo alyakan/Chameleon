@@ -10,15 +10,19 @@ public class StartMenuScript : MonoBehaviour {
 	public Button creditsBtn;
 	public Button quitGameBtn;
 	public Button doneInstructions;
+	public Button doneCredits;
 
 	public Animator instructionsAnim;
+	public Animator creditsAnim;
 
 	// Use this for initialization
 	void Start () {
 		startGameBtn.onClick.AddListener(() => StartGame());
 		howToPlayBtn.onClick.AddListener(() => HowToPlay());
+		creditsBtn.onClick.AddListener(() => Credits());
 		quitGameBtn.onClick.AddListener(() => QuitGame());
-		doneInstructions.onClick.AddListener(() => DoneInstructions());
+		doneInstructions.onClick.AddListener(() => DismissInstructions());
+		doneCredits.onClick.AddListener(() => DismissCredits());
 	}
 	
 	// Update is called once per frame
@@ -45,7 +49,7 @@ public class StartMenuScript : MonoBehaviour {
 
 	void Credits()
 	{
-		
+		creditsAnim.SetTrigger ("ViewCredits");
 	}
 
 	void QuitGame()
@@ -55,8 +59,13 @@ public class StartMenuScript : MonoBehaviour {
 		
 	}
 
-	void DoneInstructions()
+	void DismissInstructions()
 	{
 		instructionsAnim.SetTrigger ("DismissInstructions");
+	}
+
+	void DismissCredits()
+	{
+		creditsAnim.SetTrigger ("DismissCredits");
 	}
 }
