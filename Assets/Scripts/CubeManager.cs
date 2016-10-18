@@ -8,19 +8,25 @@ public class CubeManager : MonoBehaviour {
 	public GameObject sphere;
 	private Stack<GameObject> yellowCubes = new Stack<GameObject> ();
 	private bool trigger = false;
+	private bool purpleCubeTrigger = false;
 
 	// Use this for initialization
 	void Start () {
 		StartCoroutine(CubeTimer ());
+		StartCoroutine(PurpleCubeTimer ());
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-//		SpawnYellowCubeLine ();
 		if (trigger) {
 			SpawnYellowCubeLine ();
 			StartCoroutine(CubeTimer ());
+		}
+
+		if (purpleCubeTrigger) {
+			SpawnPurpleCube ();
+			StartCoroutine(PurpleCubeTimer ());
 		}
 
 	}
@@ -34,6 +40,27 @@ public class CubeManager : MonoBehaviour {
 	}
 
 	void SpawnPurpleCube() {
+		Vector3 position = new Vector3 ();
+
+		GameObject cube = Instantiate<GameObject> (purpleCube);
+		int lane = Random.Range (0,3);
+		position.z = sphere.transform.position.z + 150;
+		position.y = 0.5f;
+
+		switch (lane) {
+		case 0:
+			position.x = -1.5f;
+			break;
+		case 1:
+			position.x = 0;
+			break;
+		default:
+			position.x = 1.5f;
+			break;
+		}
+
+		cube.transform.position = position;
+
 	}
 
 	void SpawnYellowCubeLine() {
@@ -71,12 +98,18 @@ public class CubeManager : MonoBehaviour {
 		tmp = yellowCubes.Pop ();
 		tmp.transform.position = position2;
 		tmp.SetActive (true);
-		CubeTimer ();
+
 	}
 
 	public IEnumerator CubeTimer(){
 		trigger = false;
 		yield return new WaitForSeconds (4.0f);
 		trigger = true;
+	}
+
+	public IEnumerator PurpleCubeTimer(){
+		purpleCubeTrigger = false;
+		yield return new WaitForSeconds (15.0f);
+		purpleCubeTrigger = true;
 	}
 }

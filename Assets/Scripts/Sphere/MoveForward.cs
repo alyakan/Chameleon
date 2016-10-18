@@ -16,7 +16,6 @@ public class MoveForward : MonoBehaviour {
 	public Text scoreText;
 	public Button pauseGame;
 	public Button retry;
-	public Text pauseButtonText;
 	public Canvas canvas;
 	public Animator gameOverAnim;
 	public ParentLaneManager parentLaneManager;
