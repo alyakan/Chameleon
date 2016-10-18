@@ -135,6 +135,10 @@ public class MoveForward : MonoBehaviour {
 		materials [2] = parentLaneManager.GetRandomMaterial ();
 
 		parentLaneManager.SpawnParentLane (materials);
+
+		if (parentLaneManager.parentLanes.Count == 0)
+			parentLaneManager.CreateParentLane (1);
+		parentLaneManager.SpawnParentLane (materials);
 			
 	}
 
